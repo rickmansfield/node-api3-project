@@ -32,15 +32,11 @@ router.post('/', validateUser, (req, res, next) => {
 });
 
 router.put('/:id', validateUserId, validateUser, (req, res, next) => {
-  // const { id, changes } = req.body
-  // User.update({ id, changes })
-  // .then(editedUser => {
-  //   res.status(200).json({
-  //     name, 
-  //   })
-  // })
-  console.log(req.user);
-  console.log(req.name);
+  User.update(req.params.id, {name: req.name})
+  .then(editedUser => {
+    res.status(200).json(editedUser)
+  })
+  .catch(next)
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
