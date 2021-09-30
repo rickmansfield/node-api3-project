@@ -61,18 +61,17 @@ router.delete('/:id', validateUserId, (req, res, next) => {
 //   }
 // });
 
-router.get('/:id/posts', validateUserId, (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
-  console.log(req.user);
+router.get('/:id/posts', validateUserId, async (req, res, next) => {
+  try {
+    const result = await User.getUserPosts(req.params.id)
+    res.status(200).json(result)
+  } catch (err) {
+    next(err)
+  }
 });
 
 router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
-  // RETURN THE NEWLY CREATED USER POST
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
-  console.log(req.user);
-  console.log(req.text);
+
 });
 
 router.use((err, req, res, next) => {//eslint-disable-line
