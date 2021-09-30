@@ -32,17 +32,22 @@ router.post('/', validateUser, (req, res, next) => {
 });
 
 router.put('/:id', validateUserId, validateUser, (req, res, next) => {
-  User.update(req.params.id, {name: req.name})
-  .then(editedUser => {
-    res.status(200).json(editedUser)
+  User.update(req.params.id, { name: req.name })
+  .then(() => {
+    return User.getById(req.params.id)
+  })
+  .then(user => {
+    res.status(200).json(user)
   })
   .catch(next)
 });
 
-router.delete('/:id', validateUserId, (req, res) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
-  console.log(req.user);
+router.delete('/:id', validateUserId, (req, res, next) => {
+User.remove(req.params.id)
+.then(() => {
+  res.status(200).json({ message: "User removed by magic"})
+})
+.catch(next)
 });
 
 router.get('/:id/posts', validateUserId, (req, res) => {
