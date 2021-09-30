@@ -23,7 +23,7 @@ res.json(req.user)
 });
 
 router.post('/', validateUser, (req, res, next) => {
-  User.insert({ nae: req.name})
+  User.insert({ name: req.name})
   .then(newUser => {
     //throw new Error('testing')
     res.status(201).json(newUser)
@@ -31,10 +31,14 @@ router.post('/', validateUser, (req, res, next) => {
   .catch(next)
 });
 
-router.put('/:id', validateUserId, validateUser, (req, res) => {
-  // RETURN THE FRESHLY UPDATED USER OBJECT
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
+router.put('/:id', validateUserId, validateUser, (req, res, next) => {
+  // const { id, changes } = req.body
+  // User.update({ id, changes })
+  // .then(editedUser => {
+  //   res.status(200).json({
+  //     name, 
+  //   })
+  // })
   console.log(req.user);
   console.log(req.name);
 });
